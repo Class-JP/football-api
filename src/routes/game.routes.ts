@@ -26,10 +26,10 @@ router.post("/", (req: Request, res: Response) => {
     id: games.length + 1,
     description: params.description,
     location: params.location,
-    matchDate: params.matchDate,
+    matchDate: params.matchDate || params.matchdate,
     score: params.score,
-    teamLocal: params.teamLocal,
-    teamVisit: params.teamVisit,
+    teamLocal: params.teamLocal || params.teamlocal,
+    teamVisit: params.teamVisit || params.teamvisit,
   };
 
   games.push(game);
@@ -46,10 +46,10 @@ router.put("/:id", (req: Request, res: Response) => {
   } else {
     game.description = params.description || game.description;
     game.location = params.location || game.location;
-    game.matchDate = params.matchDate || game.matchDate;
+    game.matchDate = params.matchDate || params.matchdate || game.matchDate;
     game.score = params.score || game.score;
-    game.teamLocal = params.teamLocal || game.teamLocal;
-    game.teamVisit = params.teamVisit || game.teamVisit;
+    game.teamLocal = params.teamLocal || params.teamlocal || game.teamLocal;
+    game.teamVisit = params.teamVisit || params.teamvisit || game.teamVisit;
 
     res.json(game);
   }
