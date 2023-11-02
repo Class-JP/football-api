@@ -1,7 +1,13 @@
 import express, { Request, Response } from "express";
+import cors from 'cors';
 import gamesRouter from './routes/game.routes';
 
 const app = express();
+
+app.use(cors({
+  origin: '*'
+}));
+
 const port = process.env.PORT || 3001;
 
 app.use(express.json()); // Enables JSON parsing in the request body
