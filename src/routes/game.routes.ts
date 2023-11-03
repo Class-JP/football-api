@@ -4,9 +4,42 @@ import { Game } from "../models/game";
 const router = Router();
 let games: Game[] = [];
 
+interface queryParams {
+  location?: string;
+  description?: string;
+  teamLocal?: string;
+  teamVisit?: string;
+  matchDate?: Date;
+}
+
 // CRUD API ~ Games Entity
 router.get("/", (req: Request, res: Response) => {
-  res.json(games);
+  const {
+    location,
+    description
+  } = req.query as queryParams;
+
+  function filterGames(
+    games: Game[],
+    location?: string,
+    description?: string,
+  ): Game[] {
+    return games.filter((game) => {
+      // Check if the location and description match the provided parameters
+      
+      const isLocationMatch = location ? game.location.toLowerCase().includes(location.toLowerCase()) : true;
+      const isDescriptionMatch = description ? game.description.toLowerCase().includes(description.toLowerCase()) : true;
+  
+      return isLocationMatch && isDescriptionMatch;
+    });
+  }
+
+  if (!!location || !!description) {
+    const filteredGames = filterGames(games, location, description); 
+    res.json(filteredGames);
+  } else {
+    res.json(games);
+  } 
 });
 
 router.get("/:id", (req: Request, res: Response) => {
